@@ -1,0 +1,60 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "JetBrains Mono", monospace;
+}
+
+body {
+  background-color: lightgrey;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 14px;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header button {
+  cursor: pointer;
+  width: 200px;
+  align-self: center;
+}
+
+.graphContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 14px;
+}
+
+.graphTitle {
+  display: flex;
+  justify-content: center;
+  font-size: small;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.btnContainer button {
+  cursor: pointer;
+  width: 150px;
+  align-self: center;
+}
