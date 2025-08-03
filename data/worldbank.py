@@ -60,7 +60,7 @@ def get_dataset(var):
 
     try:
         response = requests.get(wb_url)
-        response.raise_for_status()  # Raise an exception for bad status codes
+        response.raise_for_status()
         data = response.json()
 
         if not data or len(data) < 2:

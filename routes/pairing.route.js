@@ -11,7 +11,6 @@ const {
 
 router.get("/", getPairings);
 
-// IMPORTANT: Put /random BEFORE /:id to avoid conflicts
 router.get("/random", getRandomPairing);
 
 router.get("/:id", getPairing);

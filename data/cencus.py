@@ -1,8 +1,3 @@
-# 1. Call Cencus Bureau API to get datasets
-# 2. Pair datasets based on similarity score
-# 3. Save the pairs with higher similarity score to the database
-
-
 import json
 import os
 import time
@@ -45,21 +40,15 @@ def get_dataset(var):
 
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Raise an exception for bad status codes
+        response.raise_for_status()
         data = response.json()
 
         if not data or len(data) < 2:
             print(f"No data returned for {var}")
             return None
 
-        # Parse the Census API response
-        # First row contains headers: [variable_name, "YR", "genc", "time"]
-        # Subsequent rows contain: [value, year, country_code, timestamp]
-
-        headers = data[0]
         rows = data[1:]
 
-        # Extract years and values
         years = []
         values = []
 
@@ -72,12 +61,10 @@ def get_dataset(var):
             except (ValueError, IndexError):
                 continue
 
-        # Sort by year to ensure chronological order
         year_value_pairs = list(zip(years, values))
         year_value_pairs.sort(key=lambda x: x[0])
         years, values = zip(*year_value_pairs) if year_value_pairs else ([], [])
 
-        # Get variable label/name
         variables_info = get_variable_info()
         var_name = variables_info.get(var, f"Dataset {var}")
 
@@ -122,12 +109,9 @@ def get_variable_info():
 
 
 def save_datasets_to_json(datasets, filename="data/datasets.json"):
-    """Save datasets in the format specified by data.json"""
 
-    # Create data directory if it doesn't exist
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    # Format according to data.json structure
     formatted_data = {"datasets": datasets}
 
     try:
@@ -144,7 +128,6 @@ def save_datasets_to_json(datasets, filename="data/datasets.json"):
 
 
 def get_all_datasets():
-    """Get all available datasets (use with caution - many API calls)"""
     variables = get_variables()
     datasets = []
 
