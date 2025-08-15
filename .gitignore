@@ -1,2 +1,14 @@
 node_modules
 .env
+*.cfg
+bin/
+include/
+lib/
+lib64/
+local/
+share/
+var/
+*.pyc
+*.pyo
+*.pyd
+dist/
