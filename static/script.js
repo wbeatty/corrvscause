@@ -29,6 +29,37 @@ async function showGraph() {
     type: "line",
     options: {
       responsive: true,
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+        },
+        y: {
+          type: "linear",
+          display: true,
+          position: "left",
+          grid: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: data.dataset1.name,
+          },
+        },
+        y1: {
+          type: "linear",
+          display: true,
+          position: "right",
+          grid: {
+            display: false,
+          },
+          title: {
+            display: true,
+            text: data.dataset2.name,
+          },
+        },
+      },
     },
     data: {
       labels: data.dataset1.years,
@@ -39,6 +70,7 @@ async function showGraph() {
           borderColor: "rgba(75, 192, 192, 1)",
           backgroundColor: "rgba(75, 192, 192, 0.2)",
           fill: true,
+          yAxisID: "y",
         },
         {
           label: data.dataset2.name,
@@ -46,20 +78,9 @@ async function showGraph() {
           borderColor: "rgba(153, 102, 255, 1)",
           backgroundColor: "rgba(153, 102, 255, 0.2)",
           fill: true,
+          yAxisID: "y1",
         },
       ],
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-        y: {
-          grid: {
-            display: false,
-          },
-        },
-      },
     },
   });
 }

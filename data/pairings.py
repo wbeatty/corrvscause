@@ -2,12 +2,12 @@ import json
 
 import numpy as np
 import pandas as pd
+import requests
 from scipy.stats import pearsonr
 
 # TODO:
-# Add all datasets to database
-# Get all datasets, from generated pairings find object IDs
-# With object ID for each dataset in pair, export to json file and save to database
+# Automate adding new data and automatically comparing with existing datasets
+# Be able to compare datasets where timeframes may be subsets of each other
 
 
 def main():
@@ -26,6 +26,10 @@ def main():
     normalized_df = df.apply(normalize_data)
     pearson_pairs = create_pairs(normalized_df, threshold)
     print("There are", len(pearson_pairs), "pairs above the threshold")
+    print("Would you like to upload the pairings to the database? (y/n)")
+    upload = input()
+    if upload == "y":
+        upload_pairings(pearson_pairs)
 
     # print(pearson_pairs)
 
@@ -57,6 +61,27 @@ def calculate_pearson_correlation(series1, series2):
         return 0
 
     return int(correlation_coefficient * 1000)
+
+
+def upload_pairings(pairings):
+    url = "http://localhost:3000/api/datasets"
+    datasets = requests.get(url)
+    datasets = datasets.json()
+    postURL = "http://localhost:3000/api/pairings"
+    for pairing in pairings:
+        dataset1 = next((d for d in datasets if d["id"] == pairing[0]), None)
+        dataset1ID = dataset1["_id"]
+        dataset2 = next((d for d in datasets if d["id"] == pairing[1]), None)
+        dataset2ID = dataset2["_id"]
+        pairing = requests.post(
+            postURL,
+            json={
+                "dataset1": dataset1ID,
+                "dataset2": dataset2ID,
+                "similarityScore": pairing[2],
+            },
+        )
+        print(pairing.text)
 
 
 if __name__ == "__main__":
